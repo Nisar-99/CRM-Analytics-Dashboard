@@ -13,19 +13,24 @@
 </head>
 
 <body>
-    <h1>CRM Analytics Dashboard (External Page)</h1>
+    <h1>Component (External Page)</h1>
     <div id="lightning-out"></div>
+
+    <h1>CRM Analytics Dashboard (External Page)</h1>
+    <div id="lightning-out-dash"></div>
+    
     <script>
 
         const appName = 'c:CRMAnalyticsDashboardApp';
         const componentName = 'c:CRMAnalyticsDashboard';
         const lightningEndPointURI = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
         const targetElement = document.querySelector('#lightning-out');
+        const targetElementD = document.querySelector('#lightning-out-dash');
         const componentAttributes = {};
         const authToken = '00DOx000002qV1l!AQEAQD5D7DNO58IyPds.23GdUsLdkZoPWpEnixHpg7Lzt14zFSxdI2B3VVge2ytvDyNNfjALJ3bO68mJg.VtcWYt.lMcJgTq';
 
 
-        /* $Lightning.use(
+          $Lightning.use(
              appName,
              function () {
                  $Lightning.createComponent(
@@ -39,12 +44,12 @@
              },
              lightningEndPointURI,
              authToken
-         );*/
+         ); 
 
         $Lightning.use("wave:waveApp", function () {
             $Lightning.createComponent("wave:waveDashboard",
                 { dashboardId: "01ZOx000002gABVMA2" },
-                targetElement);
+                targetElementD);
         }, lightningEndPointURI, authToken)
 
 
