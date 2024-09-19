@@ -15,10 +15,11 @@
 
     <script>
 
+
+        const BASE_URL_LIGHTNING = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
+        const TARGET_ELEMENT = document.querySelector('#lightning-out');
+
         const createDashboard = (authToken) => {
-
-            const targetElement = document.querySelector('#lightning-out');
-
             $Lightning.use("wave:waveApp", function () {
                 $Lightning.createComponent("wave:waveDashboard",
                     {
@@ -27,13 +28,13 @@
                         "showHeader": false,
                         "showTitle": "",
                     },
-                    targetElement);
-            }, lightningEndPointURI, authToken)
+                    TARGET_ELEMENT);
+            }, BASE_URL_LIGHTNING, authToken)
         }
 
 
 
-        const BASE_URL = 'https://crhamericas--ssdev.sandbox.my.salesforce.com';
+        const BASE_URL_CLASSIC = 'https://crhamericas--ssdev.sandbox.my.salesforce.com';
         const CLIENT_ID = '3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn';
         const CLIENT_SECRET = '6EBD009FC6931D05DD0D92E41B522AB7C62B9F86E7FB1009934E1BB34A2E1B4B';
 
@@ -62,7 +63,7 @@
                 redirect: "follow"
             };
 
-            fetch(BASE_URL + "/services/oauth2/token", requestOptions)
+            fetch(BASE_URL_CLASSIC + "/services/oauth2/token", requestOptions)
                 .then((response) => response.json())
                 .then((result) => {
                     console.log(result)
