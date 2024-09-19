@@ -45,7 +45,13 @@
 
         $Lightning.use("wave:waveApp", function () {
             $Lightning.createComponent("wave:waveDashboard",
-                { dashboardId: "0FKPb00000001ddOAA" },
+                {
+                    dashboardId: "0FKPb00000001ddOAA",
+                    height: "1000px",                // Set height of the dashboard 
+                    showHeader: false,               // Show or hide header
+                    showTitle: true,                // Show or hide title
+                    autoRefresh: 300
+                },              // Auto-refresh interval in seconds },
                 targetElement);
         }, lightningEndPointURI, authToken)
 
