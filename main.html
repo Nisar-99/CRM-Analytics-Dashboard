@@ -69,6 +69,7 @@
             const conn = new jsforce.Connection({
                 loginUrl: SF_LOGIN_URL
             });
+            console.log("##conn: " + conn);
 
             try {
                 const userInfo = await conn.login(USERNAME, PASSWORD + SECURITY_TOKEN);
