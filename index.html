@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRM Analytics Dashboard</title>
+    <script src="https://crhamericas--ssdev.sandbox.lightning.force.com/lightning/lightning.out.js"></script>
+</head>
+
+<body>
+    <h1>CRM Analytics Dashboard (External Page)</h1>
+    <div id="lightning-out"></div>
+    <script>
+
+        const appName = 'c:CRMAnalyticsDashboardApp';
+        const componentName = 'c:CRMAnalyticsDashboard';
+        const lightningEndpoint = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
+        const targetElement = document.querySelector('#lightning-out');
+        const componentAttributes = {};
+
+
+        $Lightning.use(
+            appName,
+            function () {
+                $Lightning.createComponent(
+                    componentName,
+                    componentAttributes,
+                    targetElement,
+                    function (cmp) {
+                        console.log('lightning component created.');
+                    }
+                );
+            },
+            lightningEndpoint
+        );
+
+
+    </script>
+</body>
+
+</html>
