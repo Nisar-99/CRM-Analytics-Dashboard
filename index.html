@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CRM Analytics Dashboard</title>
     <script src="https://crhamericas--ssdev.sandbox.lightning.force.com/lightning/lightning.out.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -14,39 +13,41 @@
     <div id="lightning-out"></div>
 
     <script>
-        $(document).ready(function () {
-            const appName = 'c:CRMAnalyticsDashboardApp';
-            const componentName = 'c:CRMAnalyticsDashboard';
-            const lightningEndPointURI = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
-            const targetElement = document.querySelector('#lightning-out');
-            const componentAttributes = {};
-            const authToken = '00DOx000002qV1l!AQEAQE3CwYv5.bqb5Rmeaoz8vjHrGzPapjXVZDTObSQ2VwgNXPovZrTdx2F2rD2roCHggS6lha1z2h5dSI5z.ksVnp2ee44B';
+
+        const appName = 'c:CRMAnalyticsDashboardApp';
+        const componentName = 'c:CRMAnalyticsDashboard';
+        const lightningEndPointURI = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
+        const targetElement = document.querySelector('#lightning-out');
+        const componentAttributes = {};
+        const authToken = '00DOx000002qV1l!AQEAQE3CwYv5.bqb5Rmeaoz8vjHrGzPapjXVZDTObSQ2VwgNXPovZrTdx2F2rD2roCHggS6lha1z2h5dSI5z.ksVnp2ee44B';
 
 
-            $Lightning.use(
-                appName,
-                function () {
-                    $Lightning.createComponent(
-                        componentName,
-                        componentAttributes,
-                        targetElement,
-                        function (cmp) {
-                            console.log('lightning component created.');
-                        }
-                    );
-                },
-                lightningEndPointURI,
-                authToken
-            );
-        })
+        /*$Lightning.use(
+            appName,
+            function () {
+                $Lightning.createComponent(
+                    componentName,
+                    componentAttributes,
+                    targetElement,
+                    function (cmp) {
+                        console.log('lightning component created.');
+                    }
+                );
+            },
+            lightningEndPointURI,
+            authToken
+        );
+    })*/
 
 
 
-        /*$Lightning.use("wave:waveApp", function () {
-             $Lightning.createComponent("wave:waveDashboard",
-                 { dashboardId: "0FKPb00000001ddOAA" },
-                 targetElement);
-         }, lightningEndPointURI, authToken)  */
+
+
+        $Lightning.use("wave:waveApp", function () {
+            $Lightning.createComponent("wave:waveDashboard",
+                { dashboardId: "0FKPb00000001ddOAA" },
+                targetElement);
+        }, lightningEndPointURI, authToken)
 
 
     </script>
