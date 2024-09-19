@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CRM Analytics Dashboard</title>
+    <script src="https://crhamericas--ssdev.sandbox.lightning.force.com/lightning/lightning.out.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsforce@3.2.2/dist/jsforce.min.js"></script>
+
+</head>
+
+<body>
+    <h1>CRM Analytics Dashboard (External)</h1>
+    <div id="lightning-out"></div>
+
+    <script>
+
+
+
+        const appName = 'c:CRMAnalyticsDashboardApp';
+        const componentName = 'c:CRMAnalyticsDashboard';
+        const lightningEndPointURI = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
+        const targetElement = document.querySelector('#lightning-out');
+        const componentAttributes = {};
+        const authToken = '00DOx000002qV1l!AQEAQE3CwYv5.bqb5Rmeaoz8vjHrGzPapjXVZDTObSQ2VwgNXPovZrTdx2F2rD2roCHggS6lha1z2h5dSI5z.ksVnp2ee44B';
+
+
+        /*$Lightning.use(
+            appName,
+            function () {
+                $Lightning.createComponent(
+                    componentName,
+                    componentAttributes,
+                    targetElement,
+                    function (cmp) {
+                        console.log('lightning component created.');
+                    }
+                );
+            },
+            lightningEndPointURI,
+            authToken
+        );*/
+
+
+
+
+
+        const createDashboard = () => {
+            $Lightning.use("wave:waveApp", function () {
+                $Lightning.createComponent("wave:waveDashboard",
+                    {
+                        dashboardId: "0FKPb00000001ddOAA",
+                        "height": "600px",
+                        "showHeader": false,
+                        "showTitle": "",
+                    },
+                    targetElement);
+            }, lightningEndPointURI, authToken)
+        }
+
+
+        const SF_LOGIN_URL = 'https://test.salesforce.com';
+        const USERNAME = 'nisar.ahmad.crh@k2partnering.com.ssdev';
+        const PASSWORD = 'Rushee@1234';
+        const SECURITY_TOKEN = 'VVHhGSpCeSg2oA9pJF8lUhuEV';
+
+        const applyInitialSettings = async () => {
+            const conn = new jsforce.Connection({
+                loginUrl: SF_LOGIN_URL
+            });
+
+            try {
+                const userInfo = await conn.login(USERNAME, PASSWORD + SECURITY_TOKEN);
+                console.log(userInfo)
+                accessToken = conn.accessToken;
+                instanceUrl = conn.instanceUrl;
+
+                console.log("##User ID: " + userInfo.id);
+                console.log("##Org ID: " + userInfo.organizationId);
+                console.log("##instanceUrl: " + instanceUrl);
+                console.log("##accessToken: " + accessToken);
+
+                return conn;
+            } catch (err) {
+                console.error('Error logging in to Salesforce:', err);
+                throw err; // Rethrow the error after logging it
+            }
+        }
+
+
+        applyInitialSettings()
+
+
+    </script>
+</body>
+
+</html>
