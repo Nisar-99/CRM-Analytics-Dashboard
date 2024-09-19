@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CRM Analytics Dashboard</title>
     <script src="https://crhamericas--ssdev.sandbox.lightning.force.com/lightning/lightning.out.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsforce@3.2.2/dist/jsforce.min.js"></script>
 
 </head>
 
@@ -14,38 +13,9 @@
     <h1>CRM Analytics Dashboard (Dynamic)</h1>
     <div id="lightning-out"></div>
 
-    <script>
-
-
-
-        const appName = 'c:CRMAnalyticsDashboardApp';
-        const componentName = 'c:CRMAnalyticsDashboard';
-        const lightningEndPointURI = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
+    <script> 
         const targetElement = document.querySelector('#lightning-out');
-        const componentAttributes = {};
-        const authToken = '00DOx000002qV1l!AQEAQE3CwYv5.bqb5Rmeaoz8vjHrGzPapjXVZDTObSQ2VwgNXPovZrTdx2F2rD2roCHggS6lha1z2h5dSI5z.ksVnp2ee44B';
-
-
-        /*$Lightning.use(
-            appName,
-            function () {
-                $Lightning.createComponent(
-                    componentName,
-                    componentAttributes,
-                    targetElement,
-                    function (cmp) {
-                        console.log('lightning component created.');
-                    }
-                );
-            },
-            lightningEndPointURI,
-            authToken
-        );*/
-
-
-
-
-
+      
         const createDashboard = () => {
             $Lightning.use("wave:waveApp", function () {
                 $Lightning.createComponent("wave:waveDashboard",
@@ -57,57 +27,31 @@
                     },
                     targetElement);
             }, lightningEndPointURI, authToken)
-        }
+        } 
 
+        const BASE_URL = 'https://crhamericas--ssdev.sandbox.my.salesforce.com';
+        const CLIENT_ID = '3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn';
+        const CLIENT_SECRET = '6EBD009FC6931D05DD0D92E41B522AB7C62B9F86E7FB1009934E1BB34A2E1B4B';
 
-        const SF_LOGIN_URL = 'https://test.salesforce.com';
         const USERNAME = 'nisar.ahmad.crh@k2partnering.com.ssdev';
         const PASSWORD = 'Rushee@1234';
         const SECURITY_TOKEN = 'VVHhGSpCeSg2oA9pJF8lUhuEV';
 
-        const applyInitialSettings = async () => {
-            const conn = new jsforce.Connection({
-                loginUrl: SF_LOGIN_URL,
-                version: '60.0',
-            });
-            console.log("##conn: ", conn);
 
-            try {
-                const userInfo = await conn.login(USERNAME, PASSWORD + SECURITY_TOKEN);
-                console.log(userInfo)
-                accessToken = conn.accessToken;
-                instanceUrl = conn.instanceUrl;
-
-                console.log("##User ID: ", userInfo.id);
-                console.log("##Org ID: ", userInfo.organizationId);
-                console.log("##instanceUrl: ", instanceUrl);
-                console.log("##accessToken: ", accessToken);
-
-                return conn;
-            } catch (err) {
-                console.error('Error logging in to Salesforce:', err);
-                throw err; // Rethrow the error after logging it
-            }
-        }
-
-
-        applyInitialSettings()
-
-
-        /*const callSalesforce =  () => {
+        const getToken = () => {
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
             myHeaders.append("Accept", "application/json");
-            myHeaders.append('Access-Control-Allow-Origin', 'https://nisar-99.github.io');
-            myHeaders.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            //myHeaders.append('Access-Control-Allow-Origin', 'https://nisar-99.github.io');
+            //myHeaders.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 
-         
+
             const urlencoded = new URLSearchParams();
             urlencoded.append("grant_type", "password");
-            urlencoded.append("client_id", "3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn");
-            urlencoded.append("client_secret", "6EBD009FC6931D05DD0D92E41B522AB7C62B9F86E7FB1009934E1BB34A2E1B4B");
-            urlencoded.append("username", "nisar.ahmad.crh@k2partnering.com.ssdev");
-            urlencoded.append("password", "Rushee@1234VVHhGSpCeSg2oA9pJF8lUhuEV");
+            urlencoded.append("client_id", CLIENT_ID);
+            urlencoded.append("client_secret", CLIENT_SECRET);
+            urlencoded.append("username", USERNAME);
+            urlencoded.append("password", PASSWORD + SECURITY_TOKEN);
 
             const requestOptions = {
                 method: "POST",
@@ -116,13 +60,13 @@
                 redirect: "follow"
             };
 
-            fetch("https://crhamericas--ssdev.sandbox.my.salesforce.com/services/oauth2/token", requestOptions)
-                .then((response) => response.text())
+            fetch(BASE_URL + "/services/oauth2/token", requestOptions)
+                .then((response) => response.json())
                 .then((result) => console.log(result))
                 .catch((error) => console.error(error));
         }
 
-        callSalesforce();*/
+        getToken();
 
 
 
