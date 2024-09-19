@@ -94,39 +94,33 @@
         //applyInitialSettings()
 
 
-        const callSalesforce = async () => {
-            const soapEnvelope = `<?xml version="1.0" encoding="UTF-8"?>
-            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:enterprise.soap.sforce.com">
-                <soap:Body>
-                    <urn:login>
-                        <urn:username>${USERNAME}</urn:username>
-                        <urn:password>${PASSWORD}${SECURITY_TOKEN}</urn:password>
-                    </urn:login>
-                </soap:Body>
-            </soap:Envelope>`;
+        const callSalesforce =  () => {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            myHeaders.append("Accept", "application/json");
+            myHeaders.append("Cookie", "BrowserId=xnb923abEe-MzHNBTEcNKA; CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1");
 
+            const urlencoded = new URLSearchParams();
+            urlencoded.append("grant_type", "password");
+            urlencoded.append("client_id", "3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn");
+            urlencoded.append("client_secret", "6EBD009FC6931D05DD0D92E41B522AB7C62B9F86E7FB1009934E1BB34A2E1B4B");
+            urlencoded.append("username", "nisar.ahmad.crh@k2partnering.com.ssdev");
+            urlencoded.append("password", "Rushee@1234VVHhGSpCeSg2oA9pJF8lUhuEV");
 
-            const url = 'https://test.salesforce.com/services/Soap/u/60.0';
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: urlencoded,
+                redirect: "follow"
+            };
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/xml;charset=UTF-8',
-                    'SOAPAction': 'login'
-                },
-                mode: 'no-cors',
-                body: soapEnvelope
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const textResponse = await response.text();
-            console.log(textResponse); 
+            fetch("https://crhamericas--ssdev.sandbox.my.salesforce.com/services/oauth2/token", requestOptions)
+                .then((response) => response.text())
+                .then((result) => console.log(result))
+                .catch((error) => console.error(error));
         }
 
-        callSalesforce().catch(error => console.error('Error:', error));
+        callSalesforce();
 
 
 
