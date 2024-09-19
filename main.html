@@ -70,7 +70,7 @@
                 loginUrl: SF_LOGIN_URL,
                 version: '60.0',
             });
-            console.log("##conn: " , conn);
+            console.log("##conn: ", conn);
 
             try {
                 const userInfo = await conn.login(USERNAME, PASSWORD + SECURITY_TOKEN);
@@ -78,10 +78,10 @@
                 accessToken = conn.accessToken;
                 instanceUrl = conn.instanceUrl;
 
-                console.log("##User ID: " , userInfo.id);
-                console.log("##Org ID: " , userInfo.organizationId);
-                console.log("##instanceUrl: " , instanceUrl);
-                console.log("##accessToken: " , accessToken);
+                console.log("##User ID: ", userInfo.id);
+                console.log("##Org ID: ", userInfo.organizationId);
+                console.log("##instanceUrl: ", instanceUrl);
+                console.log("##accessToken: ", accessToken);
 
                 return conn;
             } catch (err) {
@@ -91,7 +91,43 @@
         }
 
 
-        applyInitialSettings()
+        //applyInitialSettings()
+
+
+        const callSalesforce = async () => {
+            const soapEnvelope = `<?xml version="1.0" encoding="UTF-8"?>
+            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:enterprise.soap.sforce.com">
+                <soap:Body>
+                    <urn:login>
+                        <urn:username>${USERNAME}</urn:username>
+                        <urn:password>${PASSWORD}${SECURITY_TOKEN}</urn:password>
+                    </urn:login>
+                </soap:Body>
+            </soap:Envelope>`;
+
+
+            const url = 'https://test.salesforce.com/services/Soap/u/60.0';
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/xml;charset=UTF-8',
+                    'SOAPAction': 'login'
+                },
+                mode: 'no-cors',
+                body: soapEnvelope
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const textResponse = await response.text();
+            console.log(textResponse); 
+        }
+
+        callSalesforce().catch(error => console.error('Error:', error));
+
 
 
     </script>
