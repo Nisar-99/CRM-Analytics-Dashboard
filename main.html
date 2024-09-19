@@ -111,7 +111,8 @@
                 method: "POST",
                 headers: myHeaders,
                 body: urlencoded,
-                redirect: "follow"
+                redirect: "follow",
+                mode: 'no-cors'
             };
 
             fetch("https://crhamericas--ssdev.sandbox.my.salesforce.com/services/oauth2/token", requestOptions)
