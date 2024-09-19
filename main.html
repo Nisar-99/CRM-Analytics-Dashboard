@@ -98,8 +98,9 @@
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
             myHeaders.append("Accept", "application/json");
-            myHeaders.append("Cookie", "BrowserId=xnb923abEe-MzHNBTEcNKA; CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1");
+            myHeaders.append('Access-Control-Allow-Origin', '*');
 
+         
             const urlencoded = new URLSearchParams();
             urlencoded.append("grant_type", "password");
             urlencoded.append("client_id", "3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn");
