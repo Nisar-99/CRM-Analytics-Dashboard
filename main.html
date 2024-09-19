@@ -67,9 +67,10 @@
 
         const applyInitialSettings = async () => {
             const conn = new jsforce.Connection({
-                loginUrl: SF_LOGIN_URL
+                loginUrl: SF_LOGIN_URL,
+                version: '60.0',
             });
-            console.log("##conn: " + conn);
+            console.log("##conn: " , conn);
 
             try {
                 const userInfo = await conn.login(USERNAME, PASSWORD + SECURITY_TOKEN);
@@ -77,10 +78,10 @@
                 accessToken = conn.accessToken;
                 instanceUrl = conn.instanceUrl;
 
-                console.log("##User ID: " + userInfo.id);
-                console.log("##Org ID: " + userInfo.organizationId);
-                console.log("##instanceUrl: " + instanceUrl);
-                console.log("##accessToken: " + accessToken);
+                console.log("##User ID: " , userInfo.id);
+                console.log("##Org ID: " , userInfo.organizationId);
+                console.log("##instanceUrl: " , instanceUrl);
+                console.log("##accessToken: " , accessToken);
 
                 return conn;
             } catch (err) {
