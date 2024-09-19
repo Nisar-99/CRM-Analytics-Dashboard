@@ -32,47 +32,7 @@
             }, BASE_URL_LIGHTNING, authToken)
         }
 
-
-
-        const BASE_URL_CLASSIC = 'https://crhamericas--ssdev.sandbox.my.salesforce.com';
-        const CLIENT_ID = '3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn';
-        const CLIENT_SECRET = '6EBD009FC6931D05DD0D92E41B522AB7C62B9F86E7FB1009934E1BB34A2E1B4B';
-
-        const USERNAME = 'nisar.ahmad.crh@k2partnering.com.ssdev';
-        const PASSWORD = 'Rushee@1234';
-        const SECURITY_TOKEN = 'VVHhGSpCeSg2oA9pJF8lUhuEV';
-
-
-        const getToken = () => {
-            const myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-            myHeaders.append("Accept", "application/json");
-
-
-            const urlencoded = new URLSearchParams();
-            urlencoded.append("grant_type", "password");
-            urlencoded.append("client_id", CLIENT_ID);
-            urlencoded.append("client_secret", CLIENT_SECRET);
-            urlencoded.append("username", USERNAME);
-            urlencoded.append("password", PASSWORD + SECURITY_TOKEN);
-
-            const requestOptions = {
-                method: "POST",
-                headers: myHeaders,
-                body: urlencoded,
-                redirect: "follow"
-            };
-
-            fetch(BASE_URL_CLASSIC + "/services/oauth2/token", requestOptions)
-                .then((response) => response.json())
-                .then((result) => {
-                    console.log(result)
-                    createDashboard(result.access_token);
-                })
-                .catch((error) => console.error(error));
-        }
-
-        getToken();
+ 
 
 
 
