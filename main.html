@@ -77,7 +77,7 @@
         const checkConfig = () => {
             const currentDateTime = new Date(); // Current date and time 
             const currentTimeString = currentDateTime.toISOString(); // ISO string format
-            let storedData = window.localStorage.get(LOCAL_STORAGE_KEY);
+            let storedData = window.localStorage.getItem(LOCAL_STORAGE_KEY);
             storedData = storedData != null ? JSON.parse(storedData) : null;
 
             if (storedData) {
