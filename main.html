@@ -15,7 +15,6 @@
 
     <script>
 
-
         const BASE_URL_LIGHTNING = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
         const BASE_URL_CLASSIC = 'https://crhamericas--ssdev.sandbox.my.salesforce.com';
         const CLIENT_ID = '3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn';
@@ -30,28 +29,21 @@
         const LOCAL_STORAGE_KEY = `$CRM_ANALYTICS_DASHBOARD_${DASHBOARD_ID}`;
 
         const createDashboard = (authToken) => {
-            try {
-
-
-                $Lightning.use("wave:waveApp", function () {
-                    $Lightning.createComponent("wave:waveDashboard",
-                        {
-                            dashboardId: DASHBOARD_ID,
-                            "height": "600px",
-                            "showHeader": false,
-                            "showTitle": "",
-                        },
-                        TARGET_ELEMENT,
-                        function (param) {
-                            console.log("Dashboard loaded successfully", param);
-                        });
-                }, BASE_URL_LIGHTNING, authToken)
-            } catch (error) {
-                console.log('ERROR', error.error.message);
-            }
+            console.log('_____DASHBOARD_____');
+            $Lightning.use("wave:waveApp", function () {
+                $Lightning.createComponent("wave:waveDashboard",
+                    {
+                        dashboardId: DASHBOARD_ID,
+                        "height": "600px",
+                        "showHeader": false,
+                        "showTitle": "",
+                    },
+                    TARGET_ELEMENT);
+            }, BASE_URL_LIGHTNING, authToken)
         }
 
         const getToken = () => {
+            console.log('_____TOKEN_____');
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
             myHeaders.append("Accept", "application/json");
@@ -76,20 +68,33 @@
                 .then((result) => {
                     console.log(result)
                     createDashboard(result.access_token);
-                    localStorage.setItem(LOCAL_STORAGE_KEY, result.access_token);
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({ token: result.access_token, datetime: new Date().toISOString() }));
                 })
                 .catch((error) => console.error(error));
         }
 
 
         const checkConfig = () => {
-            const token = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (token != null) {
-                createDashboard('00DOx000002qV1l!AQEAQPn_Z.iAtqB_78SSK3rqgIQQxm0106PxN8oDoanfKsr_UQMPFz_efIIK58fZy7WaGQUjp85NY3_nhdlSyafZDPprjMW_');
+            const currentDateTime = new Date(); // Current date and time 
+            const currentTimeString = currentDateTime.toISOString(); // ISO string format
+            let storedData = LocalStorage.get(LOCAL_STORAGE_KEY);
+            storedData = storedData != null ? JSON.parse(storedData) : null;
+
+            if (storedData) {
+                const storedTimeString = storedData.datetime;
+                const storedDateTime = new Date(storedTimeString);
+                const timeDifference = currentDateTime - storedDateTime;
+
+                // Check if more than 15 minutes (15 * 60 * 1000 milliseconds)
+                if (timeDifference > 15 * 60 * 1000) {
+                    getToken();
+                } else {
+                    createDashboard(storedData.token);
+                }
             } else {
                 getToken();
             }
-        }
+        };
 
         checkConfig();
 
