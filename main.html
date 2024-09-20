@@ -34,7 +34,7 @@
                 $Lightning.createComponent("wave:waveDashboard",
                     {
                         dashboardId: DASHBOARD_ID,
-                        "height": "600px",
+                        "height": "650px",
                         "showHeader": false,
                         "showTitle": "",
                     },
@@ -66,7 +66,6 @@
             fetch(BASE_URL_CLASSIC + "/services/oauth2/token", requestOptions)
                 .then((response) => response.json())
                 .then((result) => {
-                    console.log(result)
                     createDashboard(result.access_token);
                     window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({ token: result.access_token, datetime: new Date().toISOString() }));
                 })
