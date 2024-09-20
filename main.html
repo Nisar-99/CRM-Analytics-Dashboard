@@ -14,7 +14,89 @@
     <div id="lightning-out"></div>
 
     <script>
- 
+
+        const BASE_URL_LIGHTNING = 'https://crhamericas--ssdev.sandbox.lightning.force.com';
+        const BASE_URL_CLASSIC = 'https://crhamericas--ssdev.sandbox.my.salesforce.com';
+        const CLIENT_ID = '3MVG9XhRuzJUtKtBIV.Z03Bm3It4rkpTxKij_wutXgjn7p3BfCheiLm7ABvvAfVlHB2hDf.s3DtWW5fOEOEzn';
+        const CLIENT_SECRET = '6EBD009FC6931D05DD0D92E41B522AB7C62B9F86E7FB1009934E1BB34A2E1B4B';
+        const DASHBOARD_ID = '0FKPb00000001ddOAA';
+
+        const USERNAME = 'nisar.ahmad.crh@k2partnering.com.ssdev';
+        const PASSWORD = 'Rushee@1234';
+        const SECURITY_TOKEN = 'VVHhGSpCeSg2oA9pJF8lUhuEV';
+
+        const TARGET_ELEMENT = document.querySelector('#lightning-out');
+        const LOCAL_STORAGE_KEY = `$CRM_ANALYTICS_DASHBOARD_${DASHBOARD_ID}`;
+
+        const createDashboard = (authToken) => {
+            console.log('_____DASHBOARD_____');
+            $Lightning.use("wave:waveApp", function () {
+                $Lightning.createComponent("wave:waveDashboard",
+                    {
+                        dashboardId: DASHBOARD_ID,
+                        "height": "650px",
+                        "showHeader": false,
+                        "showTitle": "",
+                    },
+                    TARGET_ELEMENT);
+            }, BASE_URL_LIGHTNING, authToken)
+        }
+
+        const getToken = () => {
+            console.log('_____TOKEN_____');
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+            myHeaders.append("Accept", "application/json");
+
+
+            const urlencoded = new URLSearchParams();
+            urlencoded.append("grant_type", "password");
+            urlencoded.append("client_id", CLIENT_ID);
+            urlencoded.append("client_secret", CLIENT_SECRET);
+            urlencoded.append("username", USERNAME);
+            urlencoded.append("password", PASSWORD + SECURITY_TOKEN);
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: urlencoded,
+                redirect: "follow"
+            };
+
+            fetch(BASE_URL_CLASSIC + "/services/oauth2/token", requestOptions)
+                .then((response) => response.json())
+                .then((result) => {
+                    createDashboard(result.access_token);
+                    window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({ token: result.access_token, datetime: new Date().toISOString() }));
+                })
+                .catch((error) => console.error(error));
+        }
+
+
+        const checkConfig = () => {
+            const currentDateTime = new Date(); // Current date and time 
+            const currentTimeString = currentDateTime.toISOString(); // ISO string format
+            let storedData = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+            storedData = storedData != null ? JSON.parse(storedData) : null;
+
+            if (storedData) {
+                const storedTimeString = storedData.datetime;
+                const storedDateTime = new Date(storedTimeString);
+                const timeDifference = currentDateTime - storedDateTime;
+
+                // Check if more than 15 minutes (15 * 60 * 1000 milliseconds)
+                if (timeDifference > 15 * 60 * 1000) {
+                    getToken();
+                } else {
+                    createDashboard(storedData.token);
+                }
+            } else {
+                getToken();
+            }
+        };
+
+        checkConfig();
+
 
     </script>
 </body>
