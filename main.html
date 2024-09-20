@@ -38,7 +38,10 @@
                         "showHeader": false,
                         "showTitle": "",
                     },
-                    TARGET_ELEMENT);
+                    TARGET_ELEMENT,
+                    function (param) {
+                        console.log("Dashboard loaded successfully", param);
+                    });
             }, BASE_URL_LIGHTNING, authToken)
         }
 
