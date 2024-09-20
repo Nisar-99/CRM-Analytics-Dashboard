@@ -30,19 +30,25 @@
         const LOCAL_STORAGE_KEY = `$CRM_ANALYTICS_DASHBOARD_${DASHBOARD_ID}`;
 
         const createDashboard = (authToken) => {
-            $Lightning.use("wave:waveApp", function () {
-                $Lightning.createComponent("wave:waveDashboard",
-                    {
-                        dashboardId: DASHBOARD_ID,
-                        "height": "600px",
-                        "showHeader": false,
-                        "showTitle": "",
-                    },
-                    TARGET_ELEMENT,
-                    function (param) {
-                        console.log("Dashboard loaded successfully", param);
-                    });
-            }, BASE_URL_LIGHTNING, authToken)
+            try {
+
+
+                $Lightning.use("wave:waveApp", function () {
+                    $Lightning.createComponent("wave:waveDashboard",
+                        {
+                            dashboardId: DASHBOARD_ID,
+                            "height": "600px",
+                            "showHeader": false,
+                            "showTitle": "",
+                        },
+                        TARGET_ELEMENT,
+                        function (param) {
+                            console.log("Dashboard loaded successfully", param);
+                        });
+                }, BASE_URL_LIGHTNING, authToken)
+            } catch (error) {
+                console.log('ERROR', error.error.message);
+            }
         }
 
         const getToken = () => {
